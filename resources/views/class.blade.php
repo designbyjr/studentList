@@ -5,9 +5,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" sizes="76x76" href="{{asset("img/apple-icon.png")}}">
-    <link rel="icon" type="image/png" href="{{asset("img/favicon.ico")}}">
+    <link rel="icon" type="image/png" href="{{asset("img/favicon.png")}}">
     <title>
-        Title
+        Wonde - Classes - {{$name}}
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -25,7 +25,7 @@
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
     <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-        <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/soft-ui-dashboard-pro/pages/dashboards/default.html " target="_blank">
+        <a class="navbar-brand m-0" href="{{route("home")}}" target="_blank">
             <svg width="131" height="32" viewBox="0 0 131 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-describedby="Wonde Logo">
                 <path d="M13.2991 0C8.77743 0 4.32222 0.666667 0 2V16.6667C0 24.3333 5.31965 29.4667 13.2991 32C21.2786 29.4667 26.5983 24.3333 26.5983 16.6667V2C22.276 0.666667 17.8208 0 13.2991 0ZM19.9487 3.33333V16L13.2991 12L6.64957 16V3.33333C8.64443 2.66667 13.2991 2.66667 13.2991 2.66667C13.2991 2.66667 17.9538 2.66667 19.9487 3.33333ZM13.2991 29.2C10.4398 28.2667 7.84649 26.6667 5.71863 24.5333L13.2991 19.9333L20.8796 24.5333C18.7518 26.6667 16.1584 28.2667 13.2991 29.2Z" fill="#4368FA"></path>
                 <path d="M54.9919 8.6665H60.112L54.9919 24.6665H50.5367L48.0098 16.1332L45.483 24.6665H41.0278L35.9741 8.6665H41.0278L43.3551 17.2665L45.8155 8.6665H50.2707L52.731 17.2665L54.9919 8.6665Z" fill="#27325E"></path>
@@ -45,7 +45,7 @@
             </li>
             @foreach($teachers as $teacher)
                 <li class="nav-item">
-                    <a class="nav-link" href="https://github.com/creativetimofficial/ct-soft-ui-dashboard-pro/blob/main/CHANGELOG.md" target="_blank">
+                    <a class="nav-link" href="{{route("classes",["id"=>$teacher->id, "name"=>$teacher->title." ".$teacher->forename." ".$teacher->surname])}}" target="_blank">
                         <div class=" shadow border-radius-md  text-center  me-2 d-flex align-items-center justify-content-center">
                             <img src="{{asset("/img/team-". ($teacher->title === "Mr"? rand(2,4) : "f-".rand(1,3) ).".jpg")}}" class="avatar avatar-sm me-3">
                         </div>
@@ -53,6 +53,7 @@
                     </a>
                 </li>
             @endforeach
+
         </ul>
     </div>
 </aside>
@@ -129,15 +130,69 @@
                             </div>
                             <div class="col-lg-6 col-12 text-center">
                                 <img class="img-fluid" src="{{asset("/img/school-logo.jpeg")}}" alt="School Logo">
-                                <div class="d-flex align-items-center">
-                                    <h4 class="text-white opacity-7 ms-0 ms-md-auto">Available Teachers</h4>
-                                    <h2 class="text-white ms-2 me-auto">91<small class="text-sm align-top"> %</small></h2>
+                                <div class="align-items-center">
+                                    <h4 class="text-white opacity-7 mt-1">{{$name}}</h4>
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            @foreach($tClasses->classes->data as $classes => $class)
+            <div class="row my-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">{{$class->name}}, Subject - {{$class->subject ?? "TBD"}}</h5>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Forename</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Surname</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Review</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @php
+                                    $classObj = (new \App\Services\SchoolActions\ClassesService())->getStudentsByClassId($class->id,$school);
+                                @endphp
+                                @foreach($classObj as $students => $student)
+
+                                <tr>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div>
+                                                <img src="{{asset("img/child-m-1.jpeg")}}" class="avatar avatar-sm me-3" alt="avatar image">
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">{{$student->forename}}</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p class="text-sm text-secondary mb-0">{{$student->surname}}</p>
+                                    </td>
+                                    <td>
+                                  <span class="badge badge-dot me-4">
+                                    <i class="bg-info"></i>
+                                    <span class="text-dark text-xs">positive</span>
+                                  </span>
+                                    </td>
+
+                                </tr>
+                                @endforeach
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
 
         <footer class="footer pt-3  ">
             <div class="container-fluid">

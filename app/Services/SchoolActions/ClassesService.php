@@ -36,7 +36,7 @@ class ClassesService extends SchoolService
     public function getStudentsByClassId(string $id,Schools $school) : array
     {
         $class = $school->classes->get($id,['students']);
-        return $this->convert($class->students->data);
+        return $class->students->data;
     }
 
     /**

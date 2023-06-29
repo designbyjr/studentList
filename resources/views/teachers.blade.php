@@ -25,7 +25,7 @@
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
     <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-        <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/soft-ui-dashboard-pro/pages/dashboards/default.html " target="_blank">
+        <a class="navbar-brand m-0" href="{{route("home")}}" target="_blank">
             <svg width="131" height="32" viewBox="0 0 131 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-describedby="Wonde Logo">
                 <path d="M13.2991 0C8.77743 0 4.32222 0.666667 0 2V16.6667C0 24.3333 5.31965 29.4667 13.2991 32C21.2786 29.4667 26.5983 24.3333 26.5983 16.6667V2C22.276 0.666667 17.8208 0 13.2991 0ZM19.9487 3.33333V16L13.2991 12L6.64957 16V3.33333C8.64443 2.66667 13.2991 2.66667 13.2991 2.66667C13.2991 2.66667 17.9538 2.66667 19.9487 3.33333ZM13.2991 29.2C10.4398 28.2667 7.84649 26.6667 5.71863 24.5333L13.2991 19.9333L20.8796 24.5333C18.7518 26.6667 16.1584 28.2667 13.2991 29.2Z" fill="#4368FA"></path>
                 <path d="M54.9919 8.6665H60.112L54.9919 24.6665H50.5367L48.0098 16.1332L45.483 24.6665H41.0278L35.9741 8.6665H41.0278L43.3551 17.2665L45.8155 8.6665H50.2707L52.731 17.2665L54.9919 8.6665Z" fill="#27325E"></path>
@@ -45,7 +45,7 @@
             </li>
             @foreach($teachers as $teacher)
             <li class="nav-item">
-                <a class="nav-link" href="https://github.com/creativetimofficial/ct-soft-ui-dashboard-pro/blob/main/CHANGELOG.md" target="_blank">
+                <a class="nav-link" href="{{route("classes",["id"=>$teacher->id,"name"=>$teacher->title." ".$teacher->forename." ".$teacher->surname])}}" target="_blank">
                     <div class=" shadow border-radius-md  text-center  me-2 d-flex align-items-center justify-content-center">
                         <img src="{{asset("/img/team-". ($teacher->title === "Mr"? rand(2,4) : "f-".rand(1,3) ).".jpg")}}" class="avatar avatar-sm me-3">
                     </div>

@@ -8,13 +8,14 @@ use Illuminate\Http\Request;
 
 class ClassesController extends Controller
 {
-    public function read(Request $request, $id)
+    public function read(Request $request, string $id, $name)
     {
         $schoolClass = new SchoolService();
         $school = $schoolClass->getSchool("A1930499544");
         $employeeClass = new EmployeeService();
         $tClasses = $employeeClass->listTeachersClassesById($id,$school);
-        return view('class',compact('tClasses',"school","employeeClass"));
+        $teachers = $employeeClass->listTeachers($school);
+        return view('class',compact('tClasses',"school","employeeClass","teachers","name"));
     }
 
 
