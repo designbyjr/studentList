@@ -19,10 +19,9 @@ class EmployeeService extends SchoolService
         return $employees;
     }
 
-    public function listClassStudents(string $id,Schools $school)
-    {
-        $classes = $school->employees->get($id,["classes"]);
-        return $classes;
-
+    public function listTeachersClassesById(string $id,Schools $school){
+        $employees = $school->employees->get($id,["classes"],["has_class"=>true]);
+        return $employees;
     }
+
 }
