@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class ClassesController extends Controller
 {
+    /**
+     * @param Request $request
+     * @param string $id
+     * @param $name
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function read(Request $request, string $id, $name)
     {
         $schoolClass = new SchoolService();
